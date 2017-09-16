@@ -40,5 +40,5 @@ public:
     friend istream &operator>>(istream &, bigPosInteger &);
 
 };
-
+//
 #endif //LAB_2_BIGPOSINTEGER_H
