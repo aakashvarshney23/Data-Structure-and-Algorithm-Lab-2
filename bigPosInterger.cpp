@@ -67,7 +67,7 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 
 
     bigPosInteger a = *this;
-     bigPosInteger *c = new bigPosInteger ('0');
+    bigPosInteger *c = new bigPosInteger('0');
 
 
     int len;
@@ -77,10 +77,10 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 
         len = rhs.length;
     }
-    if(c->valueArray!=NULL)
-        delete [] c->valueArray;
+    if (c->valueArray != NULL)
+        delete[] c->valueArray;
     c->length = len;
-    c->valueArray=new int [len]();
+    c->valueArray = new int[len]();
     int sum = 0;
     int cf = 0;
     int scd_val = 0;
@@ -92,7 +92,7 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
         } else {
             scd_val = 0;
         }
-        sum = (a.valueArray[i] + scd_val) % 10 + cf;
+        sum = (a.valueArray[i] + scd_val + cf) % 10;
         cf = (a.valueArray[i] + scd_val + cf) / 10;
         c->valueArray[i] = sum;
     }
@@ -103,42 +103,107 @@ bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
 /*this operator should be able to subtract the Right Hand Side bigPosInteger from the base bigPosInteger and return the result. The default return should be replaced with the appropriate variable*/
 {
     bigPosInteger b = *this;
+    bigPosInteger d = *this;
+    bigPosInteger *c = new bigPosInteger('0');
+    int len;
+    int len1;
+    int diff = 0;
+    if (b.length >= rhs.length)
+        len = b.length;
+    else
+        len = rhs.length;
 
-    for (int i = b.length - 1; i >= 0; i--) {
-        if (b.valueArray[i] < rhs.valueArray[i]) {
-            b.valueArray[i] = b.valueArray[i] + 10 - rhs.valueArray[i];
-            b.valueArray[i - 1] = b.valueArray[i - 1] - 1;
-        } else
-            b.valueArray[i] = b.valueArray[i] - rhs.valueArray[i];
+
+    len1 = rhs.length - 1;
+    d.length = len;
+    d.valueArray = new int[len];
+
+    for (int i = len - 1; i >= 0; i--) {
+        if (len1 >= 0) {
+            d.valueArray[i] = rhs.valueArray[len1];
+            len1--;
+        } else {
+            d.valueArray[i] = 0;
+        }
+
     }
 
-    return b;
+    if (c->valueArray != NULL)
+        delete[] c->valueArray;
+    c->length = len;
+    c->valueArray = new int[len]();
+    for (int i = len - 1; i >= 0; i--) {
+        if (b.valueArray[i] >= d.valueArray[i]) {
+            diff = b.valueArray[i] - d.valueArray[i];
+        }
+        if (b.valueArray[i] < d.valueArray[i]) {
+            diff = (b.valueArray[i] + 10) - d.valueArray[i];
+            b.valueArray[i - 1] = b.valueArray[i - 1] - 1;
+        }
+        c->valueArray[i] = diff;
+    }
+
+    return *c;
 }
+////if (rhs.length <b.length)
+////    len1= rhs.length;
+//
+//
+//    d.length =len;
+////    cout << rhs.valueArray[4] <<endl;
+////    cout <<rhs.valueArray[3] <<endl;
+////    cout <<rhs.valueArray[2] <<endl;
+////    cout <<rhs.valueArray[1] <<endl;
+////    cout <<rhs.valueArray[0] <<endl;
+//    for (int i= len-1; i >=0; i--){
+//        if (rhs.valueArray[i] < 10){
+//            d.valueArray[i] =rhs.valueArray[i];
+//
+//        }
+//        else {
+//            d.valueArray[i] = 0;
+//        }
+//        //    cout << rhs.valueArray[4] <<endl;
+//    cout <<d.valueArray[3] <<endl;
+//    cout <<d.valueArray[2] <<endl;
+//    cout <<d.valueArray[1] <<endl;
+//    cout <<d.valueArray[0] <<endl;
+////d.valueArray[i] = rhs.valueArray[i];
+//    }
+
 
 bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
 /*this operator should be able to multiply two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
 {
     bigPosInteger a = *this;
-    if (length > rhs.length) {
-        a.length = a.length + 1;
-    } else
-        a.length = rhs.length + 1;
-
-    int val = 0;
-    for (int i = a.length - 1; i >= 0; i--) {
-        val = val + a.valueArray[i] + rhs.valueArray[i];
-
-        if (val > 9) {
-            a.valueArray[i] = (a.valueArray[i] * rhs.valueArray[i]) % 10;
-            val = 1;
-        } else {
-            a.valueArray[i] = a.valueArray[i] * rhs.valueArray[i];
-            val = 0;
-        }
+    int carry_fwd = 0;
+    int len;
+    int temp;
+    len = a.length + rhs.length;
+    for (int i = len - 1; i >= 0; i--) {
+       temp =   a.valueArray[i] * rhs.valueArray[i];
 
     }
     return a;
 }
+//if (length > rhs.length) {
+//        a.length = a.length + 1;
+//    } else
+//        a.length = rhs.length + 1;
+//
+//    int val = 0;
+//    for (int i = a.length - 1; i >= 0; i--) {
+//        val = val + a.valueArray[i] + rhs.valueArray[i];
+//
+//        if (val > 9) {
+//            a.valueArray[i] = (a.valueArray[i] * rhs.valueArray[i]) % 10;
+//            val = 1;
+//        } else {
+//            a.valueArray[i] = a.valueArray[i] * rhs.valueArray[i];
+//            val = 0;
+//        }
+//
+//    }
 //bigPosInteger bigPosInteger::operator%(const bigPosInteger &) {
 //    return bigPosInteger();
 //}

@@ -41,4 +41,5 @@ public:
 
 };
 //
+//
 #endif //LAB_2_BIGPOSINTEGER_H
