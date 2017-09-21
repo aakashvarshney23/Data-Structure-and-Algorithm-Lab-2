@@ -175,39 +175,152 @@ bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
 bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
 /*this operator should be able to multiply two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
 {
-    bigPosInteger a = *this;
-    int carry_fwd = 0;
-    int len;
-    int temp;
-    len = a.length + rhs.length;
-    for (int i = len - 1; i >= 0; i--) {
-       temp =   a.valueArray[i] * rhs.valueArray[i];
+    bigPosInteger solution("");
+    std::string solstring = "";
+    //std::string num1="",num2="";
+    //converts first int array to string
+    std::ostringstream outs("");
+    for (int i = 0; i < length; i++)
+        outs << valueArray[i];
+    std::string num1 = outs.str();
+    //converts second digit array to string
+    std::ostringstream out("");
+    for (int i = 0; i < rhs.length; i++)
+        out << rhs.valueArray[i];
+    std::string num2 = out.str();
+    //multiplies string of numbers and results in int array
+    int n1 = num1.size();
+    int n2 = num2.size();
+    // (n1 == 0 || n2 == 0)
+
+
+    // keep the number in vector in reverse order
+    std::vector<int> result(n1 + n2, 0);
+
+    // used for positions
+    int p1 = 0;
+    int p2 = 0;
+
+    // loop to move positions in num1
+    for (int i = n1 - 1; i >= 0; i--) {
+        int carry = 0;
+        int n1 = num1[i] - '0';
+
+        // shift position to left after every multiplication
+        p2 = 0;
+
+        // loop to move positions in num2
+        for (int j = n2 - 1; j >= 0; j--) {
+            // digit value
+            int n2 = num2[j] - '0';
+
+            // add and multiply
+            int sum = n1 * n2 + result[p1 + p2] + carry;
+
+            // Carried number
+            carry = sum / 10;
+
+
+            result[p1 + p2] = sum % 10;
+
+            p2++;
+        }
+
+        // store carried number in next index
+        if (carry > 0)
+            result[p1 + p2] += carry;
+
+
+        p1++;
+    }
+
+    // move from 0 digits
+    int i = result.size() - 1;
+    while (i >= 0 && result[i] == 0)
+        i--;
+
+
+    if (i == -1)
+
+
+        // generate resulting string
+        //std::string result = "";
+
+        int j = 0;
+    solution.length = 0;
+    while (i >= 0) {
+        solution.valueArray[solution.length] = result[i--];
+        solution.length++;
+    }
+
+
+    return solution;
+}
+
+bigPosInteger bigPosInteger::operator%(const bigPosInteger &rhs) {
+    bigPosInteger b = *this;
+    bigPosInteger a= *this;
+
+    for (int i =1; i <rhs.length; i++ ){
+        bigPosInteger a(i);
+
 
     }
-    return a;
-}
-//if (length > rhs.length) {
-//        a.length = a.length + 1;
-//    } else
-//        a.length = rhs.length + 1;
-//
-//    int val = 0;
-//    for (int i = a.length - 1; i >= 0; i--) {
-//        val = val + a.valueArray[i] + rhs.valueArray[i];
-//
-//        if (val > 9) {
-//            a.valueArray[i] = (a.valueArray[i] * rhs.valueArray[i]) % 10;
-//            val = 1;
-//        } else {
-//            a.valueArray[i] = a.valueArray[i] * rhs.valueArray[i];
-//            val = 0;
-//        }
-//
-//    }
-//bigPosInteger bigPosInteger::operator%(const bigPosInteger &) {
-//    return bigPosInteger();
-//}
 
+    return b;
+//    char check = 'a';
+//    int i = 0;
+//
+//    bigPosInteger num1=*this;
+//    num1.length = length;
+//    num1.valueArray = new int[length];
+//
+//    for(int j = 0; j<length; j++){
+//        num1.valueArray[j] = valueArray[j]; //copy values into a new bigPosInteger object array
+//    }
+//
+//    bigPosInteger Num3=*this;
+//
+//    while(check == 'a') { //if char equals 'a', then the num2 is bigger than num3
+//        if (i == 0) {
+//            Num3 = num1 - rhs; //will put a zero in the front of Num3 if there is no carry /  assume that num1 is bigger than num2, doesn't work on negative numbers
+//        } else { //else will run at every 2nd or greater loop
+//            if(Num3.valueArray[0] == 0){
+//                //int array[Num3.length-1]; //newarray equals one less than the length
+//                //for (int k=0; k<Num3.length-1; k++){
+//                //    array[k] = Num3.valueArray[k+1];
+//                //}
+//                if((Num3.length-1) <= rhs.length) { //check which array is longer
+//                    if (Num3.valueArray[1] < rhs.valueArray[0]) { //check which has the larger digit
+//                        check == 'b'; //exit loop and return the current value of Num3
+//                    }
+//                    else{
+//                        Num3 = Num3 - rhs;
+//                    }
+//                }
+//                else{
+//                    Num3 = Num3 - rhs;
+//                }
+//            }
+//            else{
+//                if((Num3.length) <= rhs.length){
+//                    if(Num3.valueArray[0] < rhs.valueArray[0]){
+//                        check == 'b'; //exit the loop and return the current value of Num3
+//                    }
+//                    else{
+//                        Num3 = Num3 - rhs;
+//                    }
+//                }
+//                else{
+//                    Num3 = Num3 - rhs;
+//                }
+//            }
+//        }
+//        i++;
+//    }
+//
+//    return Num3;
+}
 
 bigPosInteger &bigPosInteger::operator=(const bigPosInteger &rhs)
 /* this is the copy assignment operator, be EXTREMELY careful for memory leaks here. The default return should be replaced with the appropriate variable*/

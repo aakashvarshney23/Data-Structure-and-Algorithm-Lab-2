@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -31,7 +34,7 @@ public:
 
     bigPosInteger operator*(const bigPosInteger &);
 
-   // bigPosInteger operator%(const bigPosInteger &);
+   bigPosInteger operator%(const bigPosInteger &);
 
     bigPosInteger &operator=(const bigPosInteger &);
 
