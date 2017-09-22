@@ -68,18 +68,16 @@ bigPosInteger::~bigPosInteger()
 bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 /*this operator should be able to add two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
 {
-
-
     bigPosInteger a = *this;
     bigPosInteger result;
 
     int len;
     if (a.length > rhs.length) {
-        a.add_formatted(rhs);
+        result=a.add_formatted(rhs);
     } else {
-        rhs.add_formatted(a);
+        result=rhs.add_formatted(a);
     }
-
+    return result;
 }
 
 bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
