@@ -1,6 +1,10 @@
 
 #include "bigPosInteger.h"
 
+bigPosInteger::bigPosInteger() {
+    valueArray= NULL;
+    length=0;
+}
 
 bigPosInteger::bigPosInteger(string value)
 /*This constructor should take in a string containing a set of chars between '0' and '9' of arbitrary length and constructs it into bigPosInteger type*/
@@ -67,36 +71,15 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 
 
     bigPosInteger a = *this;
-    bigPosInteger *c = new bigPosInteger('0');
-
+    bigPosInteger result;
 
     int len;
     if (a.length > rhs.length) {
-        len = a.length;
+        a.add_formatted(rhs);
     } else {
+        rhs.add_formatted(a);
+    }
 
-        len = rhs.length;
-    }
-    if (c->valueArray != NULL)
-        delete[] c->valueArray;
-    c->length = len;
-    c->valueArray = new int[len]();
-    int sum = 0;
-    int cf = 0;
-    int scd_val = 0;
-    int snd_loc = rhs.length;
-    for (int i = len - 1; i >= 0; i--) {
-        if (snd_loc > 0) {
-            --snd_loc;
-            scd_val = rhs.valueArray[snd_loc];
-        } else {
-            scd_val = 0;
-        }
-        sum = (a.valueArray[i] + scd_val + cf) % 10;
-        cf = (a.valueArray[i] + scd_val + cf) / 10;
-        c->valueArray[i] = sum;
-    }
-    return *c;
 }
 
 bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
@@ -357,3 +340,31 @@ istream &operator>>(istream &instream, bigPosInteger &object)
 
 
 }
+
+bigPosInteger bigPosInteger::add_formatted(bigPosInteger smaller_integer)const {
+
+    bigPosInteger *c = new bigPosInteger;
+    int larger_int_length = this->length;
+
+    int sum = 0;
+    int cf = 0;
+    int scd_val = 0;
+    int snd_loc = smaller_integer.length;
+
+    c->length = larger_int_length;
+    c->valueArray = new int[larger_int_length]();
+
+    for (int i = larger_int_length - 1; i >= 0; i--) {
+        if (snd_loc > 0) {
+            --snd_loc;
+            scd_val = smaller_integer.valueArray[snd_loc];
+        } else {
+            scd_val = 0;
+        }
+        sum = (this->valueArray[i] + scd_val + cf) % 10;
+        cf = (this->valueArray[i] + scd_val + cf) / 10;
+        c->valueArray[i] = sum;
+    }
+    return *c;
+}
+

@@ -17,9 +17,12 @@ class bigPosInteger {
     int *valueArray;
     int length;
 
+    /*private Auxillary function*/
+    bigPosInteger add_formatted(bigPosInteger smaller_integer)const;
+
 
 public:
-    //bigPosInteger();
+    bigPosInteger();
 
     explicit bigPosInteger(string value);
 
