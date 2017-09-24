@@ -19,13 +19,13 @@ class bigPosInteger {
 
 
 public:
-    //bigPosInteger();
+    bigPosInteger();
 
     explicit bigPosInteger(string value);
 
     explicit bigPosInteger(int valArr);
+    bigPosInteger(const bigPosInteger &);
 
-    bigPosInteger(const bigPosInteger &);//copy constructor
     virtual ~bigPosInteger();
 
     bigPosInteger operator+(const bigPosInteger &);
