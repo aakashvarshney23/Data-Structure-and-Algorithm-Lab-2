@@ -17,9 +17,11 @@ class bigPosInteger {
     int *valueArray;
     int length;
 
+    bigPosInteger add_formatted(bigPosInteger smaller_integer) const;
 
 public:
-    //bigPosInteger();
+    bigPosInteger();
+
 
     explicit bigPosInteger(string value);
 
@@ -28,13 +30,13 @@ public:
     bigPosInteger(const bigPosInteger &);//copy constructor
     virtual ~bigPosInteger();
 
-    bigPosInteger operator+(const bigPosInteger &);
+    bigPosInteger operator+(const bigPosInteger &rhs);
 
     bigPosInteger operator-(const bigPosInteger &);
 
     bigPosInteger operator*(const bigPosInteger &);
 
-   bigPosInteger operator%(const bigPosInteger &);
+    bigPosInteger operator%(const bigPosInteger &);
 
     bigPosInteger &operator=(const bigPosInteger &);
 

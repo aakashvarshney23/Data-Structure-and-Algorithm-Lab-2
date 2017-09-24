@@ -1,6 +1,11 @@
 
 #include "bigPosInteger.h"
 
+bigPosInteger::bigPosInteger() {
+    valueArray = NULL;
+    length = 0;
+}
+
 
 bigPosInteger::bigPosInteger(string value)
 /*This constructor should take in a string containing a set of chars between '0' and '9' of arbitrary length and constructs it into bigPosInteger type*/
@@ -61,6 +66,7 @@ bigPosInteger::~bigPosInteger()
     delete[] valueArray;
 }
 
+
 bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 /*this operator should be able to add two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
 {
@@ -77,6 +83,7 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
 
         len = rhs.length;
     }
+
     if (c->valueArray != NULL)
         delete[] c->valueArray;
     c->length = len;
@@ -99,51 +106,58 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
     return *c;
 }
 
+
 bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
 /*this operator should be able to subtract the Right Hand Side bigPosInteger from the base bigPosInteger and return the result. The default return should be replaced with the appropriate variable*/
 {
+
+
     bigPosInteger b = *this;
     bigPosInteger d = *this;
     bigPosInteger *c = new bigPosInteger('0');
     int len;
     int len1;
     int diff = 0;
-    if (b.length >= rhs.length)
-        len = b.length;
-    else
-        len = rhs.length;
+    if (rhs.length > b.length) {
+        cout << "Error, this program doesnt accept negative numbers." << endl;
+    } else {
+        if (b.length >= rhs.length)
+            len = b.length;
+        else
+            len = rhs.length;
 
 
-    len1 = rhs.length - 1;
-    d.length = len;
-    d.valueArray = new int[len];
+        len1 = rhs.length - 1;
+        d.length = len;
+        d.valueArray = new int[len];
 
-    for (int i = len - 1; i >= 0; i--) {
-        if (len1 >= 0) {
-            d.valueArray[i] = rhs.valueArray[len1];
-            len1--;
-        } else {
-            d.valueArray[i] = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            if (len1 >= 0) {
+                d.valueArray[i] = rhs.valueArray[len1];
+                len1--;
+            } else {
+                d.valueArray[i] = 0;
+            }
+
         }
 
+        if (c->valueArray != NULL)
+            delete[] c->valueArray;
+        c->length = len;
+        c->valueArray = new int[len]();
+        for (int i = len - 1; i >= 0; i--) {
+            if (b.valueArray[i] >= d.valueArray[i]) {
+                diff = b.valueArray[i] - d.valueArray[i];
+            }
+            if (b.valueArray[i] < d.valueArray[i]) {
+                diff = (b.valueArray[i] + 10) - d.valueArray[i];
+                b.valueArray[i - 1] = b.valueArray[i - 1] - 1;
+            }
+            c->valueArray[i] = diff;
+        }
+
+        return *c;
     }
-
-    if (c->valueArray != NULL)
-        delete[] c->valueArray;
-    c->length = len;
-    c->valueArray = new int[len]();
-    for (int i = len - 1; i >= 0; i--) {
-        if (b.valueArray[i] >= d.valueArray[i]) {
-            diff = b.valueArray[i] - d.valueArray[i];
-        }
-        if (b.valueArray[i] < d.valueArray[i]) {
-            diff = (b.valueArray[i] + 10) - d.valueArray[i];
-            b.valueArray[i - 1] = b.valueArray[i - 1] - 1;
-        }
-        c->valueArray[i] = diff;
-    }
-
-    return *c;
 }
 ////if (rhs.length <b.length)
 ////    len1= rhs.length;
@@ -257,70 +271,191 @@ bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
     return solution;
 }
 
-bigPosInteger bigPosInteger::operator%(const bigPosInteger &rhs) {
-    bigPosInteger b = *this;
-    bigPosInteger a= *this;
+bigPosInteger bigPosInteger::operator%(const bigPosInteger &num2) {
+    char check = 'a';
+    int i = 0;
+    int k;
+    int newlen;
+    int zerocount = 0;
 
-    for (int i =1; i <rhs.length; i++ ){
-        bigPosInteger a(i);
+    bigPosInteger num1;
+    num1.length = length;
+    num1.valueArray = new int[length];
 
-
+    for (int j = 0; j < length; j++) {
+        num1.valueArray[j] = valueArray[j]; //copy values into a new bigPosInteger object array
     }
 
-    return b;
-//    char check = 'a';
-//    int i = 0;
-//
-//    bigPosInteger num1=*this;
-//    num1.length = length;
-//    num1.valueArray = new int[length];
-//
-//    for(int j = 0; j<length; j++){
-//        num1.valueArray[j] = valueArray[j]; //copy values into a new bigPosInteger object array
-//    }
-//
-//    bigPosInteger Num3=*this;
-//
-//    while(check == 'a') { //if char equals 'a', then the num2 is bigger than num3
-//        if (i == 0) {
-//            Num3 = num1 - rhs; //will put a zero in the front of Num3 if there is no carry /  assume that num1 is bigger than num2, doesn't work on negative numbers
-//        } else { //else will run at every 2nd or greater loop
-//            if(Num3.valueArray[0] == 0){
-//                //int array[Num3.length-1]; //newarray equals one less than the length
-//                //for (int k=0; k<Num3.length-1; k++){
-//                //    array[k] = Num3.valueArray[k+1];
-//                //}
-//                if((Num3.length-1) <= rhs.length) { //check which array is longer
-//                    if (Num3.valueArray[1] < rhs.valueArray[0]) { //check which has the larger digit
-//                        check == 'b'; //exit loop and return the current value of Num3
-//                    }
-//                    else{
-//                        Num3 = Num3 - rhs;
-//                    }
-//                }
-//                else{
-//                    Num3 = Num3 - rhs;
-//                }
-//            }
-//            else{
-//                if((Num3.length) <= rhs.length){
-//                    if(Num3.valueArray[0] < rhs.valueArray[0]){
-//                        check == 'b'; //exit the loop and return the current value of Num3
-//                    }
-//                    else{
-//                        Num3 = Num3 - rhs;
-//                    }
-//                }
-//                else{
-//                    Num3 = Num3 - rhs;
-//                }
-//            }
-//        }
-//        i++;
-//    }
-//
-//    return Num3;
+    bigPosInteger Num3;
+    bigPosInteger Num4;
+
+    while (check == 'a') { //if char equals 'a', then the num2 is bigger than num3
+        if (i == 0) {
+            if ((num1.length <= num2.length) && (num1.valueArray[0] < num2.valueArray[0])) {
+                check = 'b';
+                Num3.valueArray = new int[num1.length];
+                for (int j = num1.length - 1; j >= 0; j--) {
+                    Num3.valueArray[j] = num1.valueArray[j]; //copy values into a new bigPosInteger object array, excludes zeros in the beginning
+                }
+            } else {
+                Num3 = num1 -
+                       num2; //will put a zero in the front of Num3 if there is no carry /  assume that num1 is bigger than num2, doesn't work on negative numbers
+
+                k = Num3.length - 1;
+                for (int a = 0; a < Num3.length; a++) {
+                    if (a == 0) {
+                        if (Num3.valueArray[a] == 0) {
+                            zerocount++;
+                        }
+                    } else {
+                        if (Num3.valueArray[a - 1] == 0) { //if previous index had a value of zero...
+                            if (Num3.valueArray[a] == 0) {
+                                zerocount++; //...then add unto zerocount
+                            }
+                        }
+                    }
+                }
+                newlen = Num3.length - zerocount; //tells actual length of the number
+
+                //need to resize the array
+                Num4.valueArray = new int[newlen];
+                for (int j = newlen - 1; j >= 0; j--) {
+                    Num4.valueArray[j] = Num3.valueArray[k]; //copy values into a new bigPosInteger object array, excludes zeros in the beginning
+                    k--;
+                }
+                delete[] Num3.valueArray;
+                Num3.valueArray = new int[newlen];
+                Num3.length = newlen;
+                for (int j = newlen - 1; j >= 0; j--) {
+                    Num3.valueArray[j] = Num4.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
+                }
+                //Num3.valueArray = Num4.valueArray;
+                delete[] Num4.valueArray;
+
+                std::cout << "Num3 array" << i << " : " << Num3.valueArray[i];
+                std::cout << "num2 array" << i << " : " << num2.valueArray[i];
+            }
+        } else { //else will run at every 2nd or greater loop
+            //if(Num3.valueArray[0] == 0){
+            //int array[Num3.length-1]; //newarray equals one less than the length
+            //for (int k=0; k<Num3.length-1; k++){
+            //    array[k] = Num3.valueArray[k+1];
+            //}
+            int w = Num3.valueArray[0];
+            int y = num2.valueArray[0];
+            if ((Num3.length) <= num2.length) { //check which array is longer
+                if (Num3.valueArray[0] < num2.valueArray[0]) { //check which has the larger digit
+                    check = 'b'; //exit loop and return the current value of Num3
+                } else {
+                    Num3 = Num3 - num2;
+
+                    zerocount = 0;
+                    k = Num3.length - 1;
+                    for (int a = 0; a < Num3.length; a++) {
+                        if (a == 0) {
+                            if (Num3.valueArray[a] == 0) {
+                                zerocount++;
+                            }
+                        } else {
+                            if (Num3.valueArray[a - 1] == 0) {
+                                if (Num3.valueArray[a] == 0) {
+                                    zerocount++;
+                                }
+                            }
+                        }
+                    }
+                    newlen = Num3.length - zerocount; //tells actual length of the number
+
+                    //need to resize the array
+                    Num4.valueArray = new int[newlen];
+                    for (int j = newlen - 1; j >= 0; j--) {
+                        Num4.valueArray[j] = Num3.valueArray[k]; //copy values into a new bigPosInteger object array, excludes zeros in the beginning
+                        k--;
+                    }
+                    delete[] Num3.valueArray;
+                    Num3.valueArray = new int[newlen];
+                    Num3.length = newlen;
+                    for (int j = newlen - 1; j >= 0; j--) {
+                        Num3.valueArray[j] = Num4.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
+                    }
+                    //Num3.valueArray = Num4.valueArray;
+                    delete[] Num4.valueArray;
+                }
+            } else {
+                Num3 = Num3 - num2;
+
+                zerocount = 0;
+                k = Num3.length - 1;
+                for (int a = 0; a < Num3.length; a++) {
+                    if (a == 0) {
+                        if (Num3.valueArray[a] == 0) {
+                            zerocount++;
+                        }
+                    } else {
+                        if (Num3.valueArray[a - 1] == 0) {
+                            if (Num3.valueArray[a] == 0) {
+                                zerocount++;
+                            }
+                        }
+                    }
+                }
+                newlen = Num3.length - zerocount; //tells actual length of the number
+
+                //need to resize the array
+                Num4.valueArray = new int[newlen];
+                for (int j = newlen - 1; j >= 0; j--) {
+                    Num4.valueArray[j] = Num3.valueArray[k]; //copy values into a new bigPosInteger object array, excludes zeros in the beginning
+                    k--;
+                }
+                delete[] Num3.valueArray;
+                Num3.valueArray = new int[newlen];
+                Num3.length = newlen;
+                for (int j = newlen - 1; j >= 0; j--) {
+                    Num3.valueArray[j] = Num4.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
+                }
+                //Num3.valueArray = Num4.valueArray;
+                delete[] Num4.valueArray;
+
+                std::cout << "Num3 array" << i << " : " << Num3.valueArray[i];
+                std::cout << "num2 array" << i << " : " << num2.valueArray[i];
+            }
+            //}
+            /*// else{
+                 if(Num3.length <= num2.length){
+                     if(Num3.valueArray[0] < num2.valueArray[0]){
+                         check == 'b'; //exit the loop and return the current value of Num3
+                     }
+                     else{
+                         Num3 = Num3 - num2;
+                         Num4.valueArray = new int[num1.length];
+                         for(int j = 1; j<num1.length+1; j++){
+                             Num4.valueArray[j-1] = Num3.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
+                         }
+                         delete [] Num3.valueArray;
+                         Num3.valueArray = new int[num1.length];
+                         Num3.valueArray = Num4.valueArray;
+                         delete [] Num4.valueArray;
+                     }
+                 }
+                 else{
+                     Num3 = Num3 - num2;
+                     Num4.valueArray = new int[num1.length];
+                     for(int j = 1; j<num1.length+1; j++){
+                         Num4.valueArray[j-1] = Num3.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
+                     }
+                     delete [] Num3.valueArray;
+                     Num3.valueArray = new int[num1.length];
+                     Num3.valueArray = Num4.valueArray;
+                     delete [] Num4.valueArray;
+                 }*/
+            //}
+        }
+        i++;
+    }
+
+    return Num3;
 }
+
 
 bigPosInteger &bigPosInteger::operator=(const bigPosInteger &rhs)
 /* this is the copy assignment operator, be EXTREMELY careful for memory leaks here. The default return should be replaced with the appropriate variable*/
