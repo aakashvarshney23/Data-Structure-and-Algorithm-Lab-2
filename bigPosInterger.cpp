@@ -159,32 +159,6 @@ bigPosInteger bigPosInteger::operator-(const bigPosInteger &rhs)
         return *c;
     }
 }
-////if (rhs.length <b.length)
-////    len1= rhs.length;
-//
-//
-//    d.length =len;
-////    cout << rhs.valueArray[4] <<endl;
-////    cout <<rhs.valueArray[3] <<endl;
-////    cout <<rhs.valueArray[2] <<endl;
-////    cout <<rhs.valueArray[1] <<endl;
-////    cout <<rhs.valueArray[0] <<endl;
-//    for (int i= len-1; i >=0; i--){
-//        if (rhs.valueArray[i] < 10){
-//            d.valueArray[i] =rhs.valueArray[i];
-//
-//        }
-//        else {
-//            d.valueArray[i] = 0;
-//        }
-//        //    cout << rhs.valueArray[4] <<endl;
-//    cout <<d.valueArray[3] <<endl;
-//    cout <<d.valueArray[2] <<endl;
-//    cout <<d.valueArray[1] <<endl;
-//    cout <<d.valueArray[0] <<endl;
-////d.valueArray[i] = rhs.valueArray[i];
-//    }
-
 
 bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
 /*this operator should be able to multiply two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
@@ -335,12 +309,7 @@ bigPosInteger bigPosInteger::operator%(const bigPosInteger &num2) {
                 std::cout << "Num3 array" << i << " : " << Num3.valueArray[i];
                 std::cout << "num2 array" << i << " : " << num2.valueArray[i];
             }
-        } else { //else will run at every 2nd or greater loop
-            //if(Num3.valueArray[0] == 0){
-            //int array[Num3.length-1]; //newarray equals one less than the length
-            //for (int k=0; k<Num3.length-1; k++){
-            //    array[k] = Num3.valueArray[k+1];
-            //}
+        } else {
             int w = Num3.valueArray[0];
             int y = num2.valueArray[0];
             if ((Num3.length) <= num2.length) { //check which array is longer
@@ -419,36 +388,6 @@ bigPosInteger bigPosInteger::operator%(const bigPosInteger &num2) {
                 std::cout << "Num3 array" << i << " : " << Num3.valueArray[i];
                 std::cout << "num2 array" << i << " : " << num2.valueArray[i];
             }
-            //}
-            /*// else{
-                 if(Num3.length <= num2.length){
-                     if(Num3.valueArray[0] < num2.valueArray[0]){
-                         check == 'b'; //exit the loop and return the current value of Num3
-                     }
-                     else{
-                         Num3 = Num3 - num2;
-                         Num4.valueArray = new int[num1.length];
-                         for(int j = 1; j<num1.length+1; j++){
-                             Num4.valueArray[j-1] = Num3.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
-                         }
-                         delete [] Num3.valueArray;
-                         Num3.valueArray = new int[num1.length];
-                         Num3.valueArray = Num4.valueArray;
-                         delete [] Num4.valueArray;
-                     }
-                 }
-                 else{
-                     Num3 = Num3 - num2;
-                     Num4.valueArray = new int[num1.length];
-                     for(int j = 1; j<num1.length+1; j++){
-                         Num4.valueArray[j-1] = Num3.valueArray[j]; //copy values into a new bigPosInteger object array, exclude zero in the beginning
-                     }
-                     delete [] Num3.valueArray;
-                     Num3.valueArray = new int[num1.length];
-                     Num3.valueArray = Num4.valueArray;
-                     delete [] Num4.valueArray;
-                 }*/
-            //}
         }
         i++;
     }
