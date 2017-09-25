@@ -207,7 +207,7 @@ bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
     }
     return resultant;
 }
-
+//
 bigPosInteger bigPosInteger::operator%(const bigPosInteger &rhs) {
     int test = 1;
     int i = 0;
