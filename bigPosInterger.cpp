@@ -67,7 +67,7 @@ bigPosInteger::~bigPosInteger()
 }
 
 
-bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
+bigPosInteger bigPosInteger::operator+( bigPosInteger &rhs)
 /*this operator should be able to add two bigPosInteger together and return the result. The default return should be replaced with the appropriate variable*/
 {
 
@@ -91,19 +91,37 @@ bigPosInteger bigPosInteger::operator+(const bigPosInteger &rhs)
     int sum = 0;
     int carry_forward = 0;
     int scd_val = 0;
-    int snd_loc = rhs.length;
-    for (int i = len - 1; i >= 0; i--) {
-        if (snd_loc > 0) {
-            --snd_loc;
-            scd_val = rhs.valueArray[snd_loc];
-        } else {
-            scd_val = 0;
+    int first_val =0;
+    if (a.length > rhs.length) {
+        int snd_loc = rhs.length;
+        for (int i = len - 1; i >= 0; i--) {
+            if (snd_loc > 0) {
+                --snd_loc;
+                scd_val = rhs.valueArray[snd_loc];
+            } else {
+                scd_val = 0;
+            }
+            sum = (a.valueArray[i] + scd_val + carry_forward) % 10;
+            carry_forward = (a.valueArray[i] + scd_val + carry_forward) / 10;
+            c->valueArray[i] = sum;
         }
-        sum = (a.valueArray[i] + scd_val + carry_forward) % 10;
-        carry_forward = (a.valueArray[i] + scd_val + carry_forward) / 10;
-        c->valueArray[i] = sum;
+        return *c;
     }
-    return *c;
+    else {
+        int first_loc = a.length;
+        for (int i = len - 1; i >= 0; i--) {
+            if (first_loc > 0) {
+                --first_loc;
+                first_val = a.valueArray[first_loc];
+            } else {
+                first_val = 0;
+            }
+            sum = (rhs.valueArray[i] + first_val + carry_forward) % 10;
+            carry_forward = (rhs.valueArray[i] + first_val + carry_forward) / 10;
+            c->valueArray[i] = sum;
+        }
+        return *c;
+    }
 }
 
 
@@ -207,7 +225,7 @@ bigPosInteger bigPosInteger::operator*(const bigPosInteger &rhs)
     }
     return resultant;
 }
-//
+
 bigPosInteger bigPosInteger::operator%(const bigPosInteger &rhs) {
     int test = 1;
     int i = 0;
