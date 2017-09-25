@@ -24,6 +24,7 @@ public:
     explicit bigPosInteger(string value);
 
     explicit bigPosInteger(int valArr);
+
     bigPosInteger(const bigPosInteger &);
 
     virtual ~bigPosInteger();
@@ -34,7 +35,7 @@ public:
 
     bigPosInteger operator*(const bigPosInteger &);
 
-   bigPosInteger operator%(const bigPosInteger &);
+    bigPosInteger operator%(const bigPosInteger &);
 
     bigPosInteger &operator=(const bigPosInteger &);
 
